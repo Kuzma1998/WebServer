@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/ljxdw/c++/WebServer/WebServer/build",
+  "command": "/usr/bin/g++   -I/home/ljxdw/c++/WebServer/WebServer/include  -g   -o CMakeFiles/webserver.dir/src/http_conn.cpp.o -c /home/ljxdw/c++/WebServer/WebServer/src/http_conn.cpp",
+  "file": "/home/ljxdw/c++/WebServer/WebServer/src/http_conn.cpp"
+},
+{
+  "directory": "/home/ljxdw/c++/WebServer/WebServer/build",
+  "command": "/usr/bin/g++   -I/home/ljxdw/c++/WebServer/WebServer/include  -g   -o CMakeFiles/webserver.dir/src/main.cpp.o -c /home/ljxdw/c++/WebServer/WebServer/src/main.cpp",
+  "file": "/home/ljxdw/c++/WebServer/WebServer/src/main.cpp"
+}
+]

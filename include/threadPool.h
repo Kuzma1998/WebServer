@@ -1,9 +1,9 @@
 #ifndef THREAD_POOL_H
 #define THREAD_POOL_H
 
+#include "lock.h"
 #include <iostream>
 #include <list>
-#include <lock.h>
 #include <pthread.h>
 
 // 线程池类，定义为模板类为了代码的复用 模板参数T是任务类
@@ -44,7 +44,7 @@ threadPool<T>::threadPool(int thread_number, int max_requests)
     // 创建thread_number线程，并设置为线程分离
 
     for (int i = 0; i < thread_number; ++i) {
-        std::cout << "create the " << i << "th thread" << endl;
+        std::cout << "create the " << i << "th thread" << std::endl;
         if (pthread_create(m_threads + i, NULL, worker, this) != 0) {
             delete[] m_threads;
             throw std::exception();
