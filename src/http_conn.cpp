@@ -69,11 +69,57 @@ void http_conn::init(int sockfd, const sockaddr_in& addr)
     init();
 }
 
-void http_conn::init() {}
+void http_conn::init()
+{
+    bytes_to_send   = 0;
+    bytes_have_send = 0;
+
+    m_check_state = CHECK_STATE_REQUESTLINE;  // 初始状态为检查请求行
+    m_linger = false;  // 默认不保持链接  Connection : keep-alive保持连接
+
+    m_method         = GET;  // 默认请求方式为GET
+    m_url            = 0;
+    m_version        = 0;
+    m_content_length = 0;
+    m_host           = 0;
+    m_start_line     = 0;
+    m_checked_idx    = 0;
+    m_read_idx       = 0;
+    m_write_idx      = 0;
+
+    bzero(m_read_buf, READ_BUFFER_SIZE);
+    bzero(m_write_buf, READ_BUFFER_SIZE);
+    bzero(m_real_file, FILENAME_LEN);
+}
 
 bool http_conn::read()
 {
-    std::cout << "一次性读完数据" << std::endl;
+    if (m_read_idx >= READ_BUFFER_SIZE) {
+        return false;
+    }
+    int bytes_read = 0;
+    while (true) {
+        // 从m_read_buf+m_read_idx开始读取数据,最后一个参数一般设置为0
+        bytes_read = recv(
+            m_sockfd, m_read_buf + m_read_idx, READ_BUFFER_SIZE - m_read_idx,
+            0);
+
+        // 当errno为EAGAIN或EWOULDBLOCK时，表明读取完毕，接受缓冲为空，
+        // 在非阻塞IO下会立即返回-1.若errno不是上述标志，则说明读取数据出错，
+        // 因该关闭连接，进行错误处理。
+        if (bytes_read == -1) {  // 读取错误
+            if (errno == EAGAIN || errno = EWOULDBLOCK) {
+                break;
+            }
+            return false;
+        }
+        else if (bytes_read == 0) {
+            // 断开连接
+            return false;
+        }
+        // 指针偏移
+        m_read_idx += bytes_read;
+    }
     return true;
 }
 
@@ -96,6 +142,72 @@ void http_conn ::close_conn()
 // 线程池的工作线程调用 处理HTTP请求的入口函数
 void http_conn::process()
 {
-    //解析http请求
-    std::cout << "parse request, create response" << std::endl;
+    // 解析http请求
+    HTTP_CODE = read_ret = process_read();
+    if (read_ret == NO_REQUEST) {
+        modfd(m_epollfd, m_sockfd, EPOLLIN);
+        return;
+    }
+
+    // 生成响应
+    bool write_ret = process_write(read_ret);
+    if (!write_ret) {
+        close_conn();
+    }
+    // 生成响应之后让主线程监听EPOLLOUT事件发送出去
+    modfd(m_epollfd, m_sockfd, EPOLLOUT);
 }
+
+// 主状态机，解析请求
+http_conn::HTTP_CODE http_conn::process_read()
+{
+    LINE_STATUS line_status = LINE_OK;  //一开始读的行状态初始化为ok
+    HTTP_CODE   ret  = NO_REQUEST;      // 一开始http状态码为没有请求
+    char*       text = 0;
+    while (
+        ((m_check_state == CHECK_STATE_CONTENT) && (line_status == LINE_OK)) ||
+        ((line_status = parse_line()) == LINE_OK)) {
+        // 解析一行没有错误才继续循环
+        text = get_line();
+        // 每次读取完一行之后把text更新为读缓冲区里面位置,从该位置继续往后读
+        m_start_line = m_checked_idx;
+        std::cout << "get 1 http line: " << text << std::endl;
+
+        switch (m_check_state) {
+            case CHECK_STATE_REQUESTLINE: {  //分析请求行
+                ret = parse_request_line(text);
+                if (ret == BAD_REQUEST) {  // 解析http请求行结果
+                    return BAD_REQUEST;
+                }
+                break;
+            }
+            case CHECK_STATE_HEADER: {
+                ret = parse_headers(text);
+                if (ret == BAD_REQUEST) {
+                    return BAD_REQUEST;
+                }
+                else if (ret == GET_REQUEST) {
+                    // 如果首部后面没有内容,则已经解析完了 需要do_request
+                    return do_request();
+                }
+                break;
+            }
+            case CHECK_STATE_CONTENT: {
+                ret = parse_content(text);
+                if (ret == GET_REQUEST) {
+                    return do_request();
+                }
+                break;
+            }
+            default: {
+                return INTERNAL_ERROR;
+            }
+        }
+    }
+    return NO_REQUEST;
+}
+
+// 解析一行
+http_conn::LINE_STATUS http_conn::parse_line() {}
+
+// http_conn::HTTP_CODE http_conn::
