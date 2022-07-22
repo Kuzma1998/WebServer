@@ -1,221 +1,227 @@
 {
-    "explorer.confirmDelete": false,
-    "python.linting.pylintEnabled": false,
-    "files.autoSave": "afterDelay",
-    "workbench.settings.useSplitJSON": true,
-    "python.linting.flake8Enabled": true,
-    "python.autoComplete.addBrackets": true,
-    "python.autoComplete.extraPaths": [],
-    "code-runner.runInTerminal": true,
-    "python.pythonPath": "C:\\Anaconda\\envs\\pytorch\\python.exe",
-    "code-runner.clearPreviousOutput": true,
-    "files.autoGuessEncoding": true,
-    "python.linting.banditEnabled": false,
-    "tabnine.experimentalAutoImports": true,
-    "workbench.iconTheme": "vscode-icons",
-    "tabnine.disable_file_regex": [],
-    "python.terminal.activateEnvironment": false,
-    "extensions.ignoreRecommendations": true,
-    "vsicons.dontShowNewVersionMessage": true,
-    "markdown-preview-enhanced.enableTypographer": true,
-    "jupyter.changeDirOnImportExport": true,
-    "jupyter.alwaysTrustNotebooks": true,
-    "python.defaultInterpreterPath": "C:\\Anaconda\\envs\\pytorch\\python.exe",
-    "latex-workshop.view.pdf.viewer": "tab",
-    "code-runner.executorMap": {
-      "python": "C:\\Anaconda\\envs\\pytorch\\python.exe",
+  "explorer.confirmDelete": false,
+  "python.linting.pylintEnabled": false,
+  "files.autoSave": "afterDelay",
+  "workbench.settings.useSplitJSON": true,
+  "python.linting.flake8Enabled": true,
+  "python.autoComplete.addBrackets": true,
+  "python.autoComplete.extraPaths": [],
+  "code-runner.runInTerminal": true,
+  "python.pythonPath": "C:\\Anaconda\\envs\\pytorch\\python.exe",
+  "code-runner.clearPreviousOutput": true,
+  "files.autoGuessEncoding": true,
+  "python.linting.banditEnabled": false,
+  "tabnine.experimentalAutoImports": true,
+  "workbench.iconTheme": "vscode-icons",
+  "tabnine.disable_file_regex": [],
+  "python.terminal.activateEnvironment": false,
+  "extensions.ignoreRecommendations": true,
+  "vsicons.dontShowNewVersionMessage": true,
+  "markdown-preview-enhanced.enableTypographer": true,
+  "jupyter.changeDirOnImportExport": true,
+  "jupyter.alwaysTrustNotebooks": true,
+  "python.defaultInterpreterPath": "C:\\Anaconda\\envs\\pytorch\\python.exe",
+  "latex-workshop.view.pdf.viewer": "tab",
+  "code-runner.executorMap": {
+    "python": "C:\\Anaconda\\envs\\pytorch\\python.exe",
+  },
+  "[latex]": {
+    "editor.formatOnPaste": false,
+    "editor.suggestSelection": "recentlyUsedByPrefix"
+  },
+  "latex-workshop.bind.altKeymap.enabled": true,
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "xelatex-> bibtex-> xelatex-> xelatex",
+      "tools": [
+        "xelatex",
+        "bibtex",
+        "xelatex",
+        "xelatex"
+      ]
     },
-    "[latex]": {
-      "editor.formatOnPaste": false,
-      "editor.suggestSelection": "recentlyUsedByPrefix"
-    },
-    "latex-workshop.bind.altKeymap.enabled": true,
-    "latex-workshop.latex.recipes": [
-      {
-        "name": "xelatex-> bibtex-> xelatex-> xelatex",
-        "tools": [
-          "xelatex",
-          "bibtex",
-          "xelatex",
-          "xelatex"
-        ]
-      },
-      // {
-      //   "name": "latexmk",
-      //   "tools": [
-      //       "latexmk"
-      //   ]
-      // },
-      // {
-      //   "name": "pdflatex -> bibtex -> pdflatex*2",
-      //   "tools": [
-      //       "pdflatex",
-      //       "bibtex",
-      //       "pdflatex",
-      //       "pdflatex"
-      //   ]
-      // }
-    ],
-    // "latex-workshop.latex.outDir": "./",
-    "latex-workshop.latex.tools": [
-      {
-        "name": "latexmk",
-        "command": "latexmk",
-        "args": [
-          "-synctex=1",
-          "-interaction=nonstopmode",
-          "-file-line-error",
-          "-pdf",
-          "%DOC%"
-        ]
-      },
-      {
-        "name": "xelatex",
-        "command": "xelatex",
-        "args": [
-          "-synctex=1",
-          "-interaction=nonstopmode",
-          "-file-line-error",
-          "%DOC%"
-        ]
-      },
-      {
-        "name": "pdflatex",
-        "command": "pdflatex",
-        "args": [
-          "-synctex=1",
-          "-interaction=nonstopmode",
-          "-file-line-error",
-          "%DOC%"
-        ]
-      },
-      {
-        "name": "bibtex",
-        "command": "bibtex",
-        "args": [
-          "%DOCFILE%"
-        ]
-      }
-    ],
-    "latex-workshop.view.pdf.viewer": "tab",
-    "latex-workshop.latex.clean.fileTypes": [
-      "*.aux",
-      "*.bbl",
-      "*.blg",
-      "*.idx",
-      "*.ind",
-      "*.lof",
-      "*.lot",
-      "*.out",
-      "*.toc",
-      "*.acn",
-      "*.acr",
-      "*.alg",
-      "*.glg",
-      "*.glo",
-      "*.gls",
-      "*.ist",
-      "*.fls",
-      "*.log",
-      "*.fdb_latexmk"
-    ],
-    "latex-workshop.latex.autoClean.run": "onBuilt",
-    "matlab.matlabpath": "D:\\Matlab\\bin\\matlab.exe",
-    "matlab.mlintpath": "D:\\Matlab\\bin\\win64\\mlint.exe",
-    "matlab-interactive-terminal.unicodeSwitch": true,
-    "matlab-interactive-terminal.pythonPath": "",
-    "matlab.linterEncoding": "gb2312",
-    "files.associations": {
-      "*.m": "matlab",
-    },
-    "[matlab]": {
-      "files.encoding": "gb2312",
-    },
-    "files.autoGuessEncoding": true,
-    //background 的相关配置
-    "update.enableWindowsBackgroundUpdates": true,
-    "background.customImages": [
-      "file:///D:/pchy.jpeg" //图片地址
-    ],
-    "background.style": {
-      "content": "''",
-      "pointer-events": "none",
-      "position": "absolute", //图片位置
-      "width": "100%",
-      "height": "100%",
-      "z-index": "99999",
-      "background.repeat": "no-repeat",
-      "background-size": "100%,100%", //图片大小
-      "opacity": 0.1 //透明度
-    },
-    "background.useFront": true,
-    "background.useDefault": false,
-    "workbench.editorAssociations": {
-      "*.ipynb": "jupyter-notebook",
-      "*.txt": "default",
-      "*.cdr": "default"
-    },
-    "[python]": {
-      "editor.defaultFormatter": "ms-python.python"
-    },
-    "python.analysis.extraPaths": [],
-    "python.analysis.completeFunctionParens": true, //是否使用默认图片
-    "editor.tokenColorCustomizations": {
-      "comments": "#d682e0", // 注释
-      "keywords": "#0091aa", // 关键字
-      "variables": "#f00", // 变量名
-      "strings": "#e2d75dbd", // 字符串
-      "functions": "#5b99fcc9", // 函数名
-      "numbers": "#ffcd81" // 数字
-    },
-    // 选中高亮的颜色
-    "workbench.colorCustomizations": {
-      "editor.selectionBackground": "#aa00a2"
-    },
-    "terminal.integrated.tabs.enabled": true,
-    "notebook.cellToolbarLocation": {
-      "default": "right",
-      "jupyter-notebook": "left"
-    },
-    // "editor.formatOnSave": true,
-    // "[cpp]": {
-    //   "editor.defaultFormatter": "ms-vscode.cpptools"
+    // {
+    //   "name": "latexmk",
+    //   "tools": [
+    //       "latexmk"
+    //   ]
     // },
-    // 文件头部注释
-    "fileheader.customMade": {
-      "Description": "",
-      "code": "",
-      "Author": "Li Jiaxin",
-      "Date": "Do not edit",
-      "LastEditors": "Li Jiaxin",
-      "LastEditTime": "Do not Edit"
+    // {
+    //   "name": "pdflatex -> bibtex -> pdflatex*2",
+    //   "tools": [
+    //       "pdflatex",
+    //       "bibtex",
+    //       "pdflatex",
+    //       "pdflatex"
+    //   ]
+    // }
+  ],
+  // "latex-workshop.latex.outDir": "./",
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-pdf",
+        "%DOC%"
+      ]
     },
-    // 函数注释
-    "fileheader.cursorMode": {
-      "name": "",
-      "msg": "",
-      "param": "",
-      "return": ""
+    {
+      "name": "xelatex",
+      "command": "xelatex",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ]
     },
-    "[cpp]": {
-      "editor.defaultFormatter": "xaver.clang-format"
+    {
+      "name": "pdflatex",
+      "command": "pdflatex",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ]
     },
-    // "[c]": {
-    //   "editor.defaultFormatter": "ms-vscode.cpptools"
-    // },
-    // "git-path": "D:/Git/Git/bin/git.exe",
-    "security.workspace.trust.untrustedFiles": "open",
-    "c-cpp-compile-run.run-in-external-terminal": true,
-    "bracket-pair-colorizer-2.depreciation-notice": false,
-    "bracketPairColorizer.depreciation-notice": false,
-    "C_Cpp.updateChannel": "Insiders",
-    "terminal.integrated.enableMultiLinePasteWarning": false,
-    "notebook.output.textLineLimit": 50,
-    "cmake.configureOnOpen": true,
-    "remote.SSH.remotePlatform": {
-      "43.142.55.174": "linux"
-    },
-    // "[cpp]": {
-    //   "editor.defaultFormatter": "ms-vscode.cpptools"
-    // },
+    {
+      "name": "bibtex",
+      "command": "bibtex",
+      "args": [
+        "%DOCFILE%"
+      ]
+    }
+  ],
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.latex.clean.fileTypes": [
+    "*.aux",
+    "*.bbl",
+    "*.blg",
+    "*.idx",
+    "*.ind",
+    "*.lof",
+    "*.lot",
+    "*.out",
+    "*.toc",
+    "*.acn",
+    "*.acr",
+    "*.alg",
+    "*.glg",
+    "*.glo",
+    "*.gls",
+    "*.ist",
+    "*.fls",
+    "*.log",
+    "*.fdb_latexmk"
+  ],
+  "latex-workshop.latex.autoClean.run": "onBuilt",
+  "matlab.matlabpath": "D:\\Matlab\\bin\\matlab.exe",
+  "matlab.mlintpath": "D:\\Matlab\\bin\\win64\\mlint.exe",
+  "matlab-interactive-terminal.unicodeSwitch": true,
+  "matlab-interactive-terminal.pythonPath": "",
+  "matlab.linterEncoding": "gb2312",
+  "files.associations": {
+    "*.m": "matlab",
+  },
+  "[matlab]": {
+    "files.encoding": "gb2312",
+  },
+  "files.autoGuessEncoding": true,
+  //background 的相关配置
+  "update.enableWindowsBackgroundUpdates": true,
+  "background.customImages": [
+    "file:///D:/pchy.jpeg" //图片地址
+  ],
+  "background.style": {
+    "content": "''",
+    "pointer-events": "none",
+    "position": "absolute", //图片位置
+    "width": "100%",
+    "height": "100%",
+    "z-index": "99999",
+    "background.repeat": "no-repeat",
+    "background-size": "100%,100%", //图片大小
+    "opacity": 0.1 //透明度
+  },
+  "background.useFront": true,
+  "background.useDefault": false,
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook",
+    "*.txt": "default",
+    "*.cdr": "default"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python"
+  },
+  "python.analysis.extraPaths": [],
+  "python.analysis.completeFunctionParens": true, //是否使用默认图片
+  "editor.tokenColorCustomizations": {
+    "comments": "#d682e0", // 注释
+    "keywords": "#0091aa", // 关键字
+    "variables": "#f00", // 变量名
+    "strings": "#e2d75dbd", // 字符串
+    "functions": "#5b99fcc9", // 函数名
+    "numbers": "#ffcd81" // 数字
+  },
+  // 选中高亮的颜色
+  "workbench.colorCustomizations": {
+    "editor.selectionBackground": "#aa00a2"
+  },
+  "terminal.integrated.tabs.enabled": true,
+  "notebook.cellToolbarLocation": {
+    "default": "right",
+    "jupyter-notebook": "left"
+  },
+  // "editor.formatOnSave": true,
+  // "[cpp]": {
+  //   "editor.defaultFormatter": "ms-vscode.cpptools"
+  // },
+  // 文件头部注释
+  "fileheader.customMade": {
+    "Description": "",
+    "code": "",
+    "Author": "Li Jiaxin",
+    "Date": "Do not edit",
+    "LastEditors": "Li Jiaxin",
+    "LastEditTime": "Do not Edit"
+  },
+  // 函数注释
+  "fileheader.cursorMode": {
+    "name": "",
+    "msg": "",
+    "param": "",
+    "return": ""
+  },
+  "[cpp]": {
+    "editor.defaultFormatter": "xaver.clang-format"
+  },
+  // "[c]": {
+  //   "editor.defaultFormatter": "ms-vscode.cpptools"
+  // },
+  // "git-path": "D:/Git/Git/bin/git.exe",
+  "security.workspace.trust.untrustedFiles": "open",
+  "c-cpp-compile-run.run-in-external-terminal": true,
+  "bracket-pair-colorizer-2.depreciation-notice": false,
+  "bracketPairColorizer.depreciation-notice": false,
+  "C_Cpp.updateChannel": "Insiders",
+  "terminal.integrated.enableMultiLinePasteWarning": false,
+  "notebook.output.textLineLimit": 50,
+  "cmake.configureOnOpen": true,
+  "remote.SSH.remotePlatform": {
+    "43.142.55.174": "linux"
+  },
+  // "[cpp]": {
+  //   "editor.defaultFormatter": "ms-vscode.cpptools"
+  // },
+  "[cpp]": {
+    "editor.quickSuggestions": true
+  },
+  "[c]": {
+    "editor.quickSuggestions": true
   }
+}

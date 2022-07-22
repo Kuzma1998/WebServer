@@ -34,7 +34,7 @@ int main()
     // }
 
     // int port = atoi(argv[1]);
-    int port = 40000;
+    int port = 10000;
     addsig(SIGPIPE, SIG_IGN);
     // 创建线程池
     threadPool<http_conn>* pool = nullptr;
@@ -71,7 +71,17 @@ int main()
     // 创建eopll对象 通过epollfd可以找到这个实例
     int epollfd = epoll_create(5);
     // 添加监听用的文件描述符
-    addfd(epollfd, listenfd, false);
+
+    epoll_event event;
+    event.data.fd = listenfd;
+    // 过EPOLLRDHUP属性，来判断是否对端已经关闭，
+    // 这样可以减少一次系统调用。在2.6.17的内核版本之前，只能再通过调用一次recv函数来判断
+    event.events = EPOLLRDHUP | EPOLLIN;
+    event.events |= EPOLLONESHOT;
+    // 添加事件
+    epoll_ctl(epollfd, EPOLL_CTL_ADD, listenfd, &event);
+
+    // addfd(epollfd, listenfd, false);
     http_conn::m_epollfd = epollfd;
 
     while (true) {
@@ -84,7 +94,7 @@ int main()
             break;
         }
 
-        std::cout << "number" << number << std::endl;
+        // std::cout << "number" << number << std::endl;
 
         for (int i = 0; i < number; ++i) {
             int sockfd = events[i].data.fd;

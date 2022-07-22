@@ -61,7 +61,7 @@ public:
         NO_REQUEST,
         GET_REQUEST,
         BAD_REQUEST,
-        NO_REQUEST,
+        NO_RESOURCE,
         FORBIDDEN_REQUEST,
         FILE_REQUEST,
         INTERNAL_ERROR,
