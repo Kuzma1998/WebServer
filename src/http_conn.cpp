@@ -39,7 +39,7 @@ void addfd(int epollfd, int fd, bool one_shot)
     // 这样可以减少一次系统调用。在2.6.17的内核版本之前，只能再通过调用一次recv函数来判断
     event.events = EPOLLRDHUP | EPOLLET | EPOLLIN;
     if (one_shot) {
-        // 防止同一个连接被多个不同线程处理
+        // 防止同一个连接被多个不同线程处理  只触发一次 还想使用需要再次注册
         event.events |= EPOLLONESHOT;
     }
     // 添加事件
@@ -57,7 +57,7 @@ void modfd(int epollfd, int fd, int ev)
 {
     epoll_event event;
     event.data.fd = fd;
-    event.events  = ev | EPOLLET | EPOLLONESHOT;  // 设置边沿
+    event.events  = EPOLLET | EPOLLONESHOT | ev;  // 设置边沿
     epoll_ctl(epollfd, EPOLL_CTL_MOD, fd, &event);
 }
 
@@ -450,7 +450,7 @@ bool http_conn::process_write(HTTP_CODE ret)
     return true;
 }
 
-// 写http响应
+// 写http响应 到socket缓冲区/
 bool http_conn::write()
 {
     int temp = 0;

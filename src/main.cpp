@@ -77,7 +77,6 @@ int main()
     // 过EPOLLRDHUP属性，来判断是否对端已经关闭，
     // 这样可以减少一次系统调用。在2.6.17的内核版本之前，只能再通过调用一次recv函数来判断
     event.events = EPOLLRDHUP | EPOLLIN;
-    event.events |= EPOLLONESHOT;
     // 添加事件
     epoll_ctl(epollfd, EPOLL_CTL_ADD, listenfd, &event);
 

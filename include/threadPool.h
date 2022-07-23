@@ -50,6 +50,7 @@ threadPool<T>::threadPool(int thread_number, int max_requests)
             throw std::exception();
         }
 
+        // 线程分离，当线程退出知乎
         if (pthread_detach(m_threads[i])) {
             delete[] m_threads;
             throw std::exception();
