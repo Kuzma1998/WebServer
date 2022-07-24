@@ -1,1 +1,1 @@
-/usr/bin/c++  -g   CMakeFiles/webserver.dir/src/http_conn.cpp.o CMakeFiles/webserver.dir/src/main.cpp.o  -o webserver  -lpthread 
+/usr/bin/g++  -g   CMakeFiles/webserver.dir/src/http_conn.cpp.o CMakeFiles/webserver.dir/src/main.cpp.o  -o webserver  -lpthread 

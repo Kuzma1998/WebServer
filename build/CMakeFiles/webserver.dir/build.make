@@ -60,28 +60,28 @@ include CMakeFiles/webserver.dir/flags.make
 CMakeFiles/webserver.dir/src/http_conn.cpp.o: CMakeFiles/webserver.dir/flags.make
 CMakeFiles/webserver.dir/src/http_conn.cpp.o: ../src/http_conn.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ljxdw/c++/WebServer/WebServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/webserver.dir/src/http_conn.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/webserver.dir/src/http_conn.cpp.o -c /home/ljxdw/c++/WebServer/WebServer/src/http_conn.cpp
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/webserver.dir/src/http_conn.cpp.o -c /home/ljxdw/c++/WebServer/WebServer/src/http_conn.cpp
 
 CMakeFiles/webserver.dir/src/http_conn.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/webserver.dir/src/http_conn.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ljxdw/c++/WebServer/WebServer/src/http_conn.cpp > CMakeFiles/webserver.dir/src/http_conn.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ljxdw/c++/WebServer/WebServer/src/http_conn.cpp > CMakeFiles/webserver.dir/src/http_conn.cpp.i
 
 CMakeFiles/webserver.dir/src/http_conn.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/webserver.dir/src/http_conn.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ljxdw/c++/WebServer/WebServer/src/http_conn.cpp -o CMakeFiles/webserver.dir/src/http_conn.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ljxdw/c++/WebServer/WebServer/src/http_conn.cpp -o CMakeFiles/webserver.dir/src/http_conn.cpp.s
 
 CMakeFiles/webserver.dir/src/main.cpp.o: CMakeFiles/webserver.dir/flags.make
 CMakeFiles/webserver.dir/src/main.cpp.o: ../src/main.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ljxdw/c++/WebServer/WebServer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/webserver.dir/src/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/webserver.dir/src/main.cpp.o -c /home/ljxdw/c++/WebServer/WebServer/src/main.cpp
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/webserver.dir/src/main.cpp.o -c /home/ljxdw/c++/WebServer/WebServer/src/main.cpp
 
 CMakeFiles/webserver.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/webserver.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ljxdw/c++/WebServer/WebServer/src/main.cpp > CMakeFiles/webserver.dir/src/main.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ljxdw/c++/WebServer/WebServer/src/main.cpp > CMakeFiles/webserver.dir/src/main.cpp.i
 
 CMakeFiles/webserver.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/webserver.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ljxdw/c++/WebServer/WebServer/src/main.cpp -o CMakeFiles/webserver.dir/src/main.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ljxdw/c++/WebServer/WebServer/src/main.cpp -o CMakeFiles/webserver.dir/src/main.cpp.s
 
 # Object files for target webserver
 webserver_OBJECTS = \
