@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/ljxdw/c++/WebServer/WebServer/src/http_conn.cpp" "/home/ljxdw/c++/WebServer/WebServer/build/CMakeFiles/webserver.dir/src/http_conn.cpp.o"
+  "/home/ljxdw/c++/WebServer/WebServer/src/log.cpp" "/home/ljxdw/c++/WebServer/WebServer/build/CMakeFiles/webserver.dir/src/log.cpp.o"
   "/home/ljxdw/c++/WebServer/WebServer/src/main.cpp" "/home/ljxdw/c++/WebServer/WebServer/build/CMakeFiles/webserver.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

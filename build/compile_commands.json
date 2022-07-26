@@ -8,5 +8,10 @@
   "directory": "/home/ljxdw/c++/WebServer/WebServer/build",
   "command": "/usr/bin/g++   -I/home/ljxdw/c++/WebServer/WebServer/include  -g   -o CMakeFiles/webserver.dir/src/main.cpp.o -c /home/ljxdw/c++/WebServer/WebServer/src/main.cpp",
   "file": "/home/ljxdw/c++/WebServer/WebServer/src/main.cpp"
+},
+{
+  "directory": "/home/ljxdw/c++/WebServer/WebServer/build",
+  "command": "/usr/bin/g++   -I/home/ljxdw/c++/WebServer/WebServer/include  -g   -o CMakeFiles/webserver.dir/src/log.cpp.o -c /home/ljxdw/c++/WebServer/WebServer/src/log.cpp",
+  "file": "/home/ljxdw/c++/WebServer/WebServer/src/log.cpp"
 }
 ]
