@@ -78,6 +78,10 @@ public:
     void process();                                  // 处理新的连接
     bool read();                                     // 非阻塞读
     bool write();                                    // 非阻塞写
+    sockaddr_in* get_address()  // 获取客户端的端口和ip
+    {
+        return &m_address;
+    }
 
     http_conn();
     ~http_conn();

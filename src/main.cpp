@@ -1,5 +1,7 @@
+#include "block_queue.h"
 #include "http_conn.h"
 #include "lock.h"
+#include "log.h"
 #include "lst_timer.h"
 #include "threadPool.h"
 #include <arpa/inet.h>
@@ -16,14 +18,14 @@
 #define MAX_EVENTS_NUMBER 10000  // 监听的最大事件数量
 #define TIMESLOT 5               // 最小超时单位
 
-extern void addfd(int epollfd, int fd, bool one_shot);
-extern void removefd(int epollfd, int fd);
-extern void setnonblocking(int fd);
-
 // 定时器相关参数
 static int             pipefd[2];
 static sort_timer_list timer_list;
 static int             epollfd = 0;
+
+extern void addfd(int epollfd, int fd, bool one_shot);
+extern void removefd(int epollfd, int fd);
+extern void setnonblocking(int fd);
 
 // 信号处理函数,把信号写入管道信号处理函数中仅仅通过管道发送信号，
 // 不处理信号对应的逻辑，缩短异步执行时间，值减少对主程序的影响。
@@ -68,6 +70,7 @@ void cb_func(client_data* user_data)
     close(user_data->sockfd);
     std::cout << user_data->sockfd << std::endl;
     std::cout << "连接关闭了..." << std::endl;
+    LOG_INFO("close fd %d", user_data->sockfd);
     http_conn::m_user_count--;
 }
 
@@ -80,10 +83,8 @@ void show_error(int connfd, const char* info)
 
 int main()
 {
-    // if (argc <= 1) {
-    //     std::cout << "usage: " << basename(argv[0]) << std::endl;
-    //     return 1;
-    // }
+    // 日志系统初始化
+    Log::get_instance()->init("LJX_Webserver", 2000, 800000, 0);
 
     // int port = atoi(argv[1]);
     int port = 10000;
@@ -177,11 +178,13 @@ int main()
                                               &client_addrlength);
                 if (connfd < 0) {
                     std::cout << "errno is: " << errno << std::endl;
+                    LOG_ERROR("%s:errno is:%d", "accpet", errno);
                     continue;
                 }
                 std::cout << "建立连接: " << connfd << std::endl;
 
                 if (http_conn::m_user_count >= MAX_FD) {
+                    LOG_ERROR("%s", "Internal server busy");
                     close(connfd);  // 关闭
                     continue;
                 }
@@ -209,7 +212,7 @@ int main()
                     timer_list.del_timer(timer);
                 }
             }
-            // 处理信号
+            // 处理定时器信号
             else if (sockfd == pipefd[0] && events[i].events & EPOLLIN) {
                 int  sig;
                 char signals[1024];
@@ -245,12 +248,19 @@ int main()
             else if (events[i].events & EPOLLIN) {
                 util_timer* timer = users_timer[sockfd].timer;
                 if (users[sockfd].read()) {
+                    // 大端ip转为点分十进制数
+                    LOG_INFO(
+                        "deal with the client(%s)",
+                        inet_ntoa(users[sockfd].get_address()->sin_addr));
+                    Log::get_instance()->flush();
                     pool->append(users + sockfd);
 
                     if (timer) {
                         // 刷新时间，往后延迟三个单位
                         time_t cur    = time(NULL);
                         timer->expire = cur + 3 * TIMESLOT;
+                        LOG_INFO("%s", "adjust timer once");
+                        Log::get_instance()->flush();
                         timer_list.adjust_timer(timer);
                     }
                 }
@@ -266,10 +276,16 @@ int main()
             else if (events[i].events & EPOLLOUT) {
                 util_timer* timer = users_timer[sockfd].timer;
                 if (users[sockfd].write()) {
+                    LOG_INFO(
+                        "send data to the client(%s)",
+                        inet_ntoa(users[sockfd].get_address()->sin_addr));
+                    Log::get_instance()->flush();
                     // 刷新时间，往后延迟三个单位
                     if (timer) {
                         time_t cur    = time(NULL);
                         timer->expire = cur + 3 * TIMESLOT;
+                        LOG_INFO("%s", "adjust timer once");
+                        Log::get_instance()->flush();
                         timer_list.adjust_timer(timer);
                     }
                 }
