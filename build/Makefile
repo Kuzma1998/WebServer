@@ -204,6 +204,33 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/sql_connection_pool.o: src/sql_connection_pool.cpp.o
+
+.PHONY : src/sql_connection_pool.o
+
+# target to build an object file
+src/sql_connection_pool.cpp.o:
+	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/sql_connection_pool.cpp.o
+.PHONY : src/sql_connection_pool.cpp.o
+
+src/sql_connection_pool.i: src/sql_connection_pool.cpp.i
+
+.PHONY : src/sql_connection_pool.i
+
+# target to preprocess a source file
+src/sql_connection_pool.cpp.i:
+	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/sql_connection_pool.cpp.i
+.PHONY : src/sql_connection_pool.cpp.i
+
+src/sql_connection_pool.s: src/sql_connection_pool.cpp.s
+
+.PHONY : src/sql_connection_pool.s
+
+# target to generate assembly for a file
+src/sql_connection_pool.cpp.s:
+	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/sql_connection_pool.cpp.s
+.PHONY : src/sql_connection_pool.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -222,6 +249,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/sql_connection_pool.o"
+	@echo "... src/sql_connection_pool.i"
+	@echo "... src/sql_connection_pool.s"
 .PHONY : help
 
 

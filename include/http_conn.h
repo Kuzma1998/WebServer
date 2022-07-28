@@ -143,6 +143,9 @@ private:
 
     int bytes_to_send;    // 将要发送的数据的字节数
     int bytes_have_send;  // 已经发送的字节数
+
+    int   cgi;       // 是否启用post
+    char* m_string;  //存储请求的头部
 };
 
 #endif

@@ -3,6 +3,7 @@
 #include "lock.h"
 #include "log.h"
 #include "lst_timer.h"
+#include "sql_connection_pool.h"
 #include "threadPool.h"
 #include <arpa/inet.h>
 #include <errno.h>

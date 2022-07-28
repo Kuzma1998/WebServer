@@ -1,4 +1,5 @@
 #include "http_conn.h"
+#include "log.h"
 #include <iostream>
 
 //定义HTTP响应的一些状态信息
@@ -103,6 +104,7 @@ void http_conn::init()
     m_checked_idx    = 0;
     m_read_idx       = 0;
     m_write_idx      = 0;
+    cgi              = 0;
 
     bzero(m_read_buf, READ_BUFFER_SIZE);
     bzero(m_write_buf, WRITE_BUFFER_SIZE);
@@ -115,6 +117,7 @@ bool http_conn::read()
         return false;
     }
     int bytes_read = 0;
+    // 非阻塞socket的ET模式，需要把数据全都读完
     while (true) {
         // 读取socket的数据,从m_read_buf+m_read_idx开始保存，最后一个参数一般设置为0
         bytes_read = recv(
@@ -183,6 +186,8 @@ http_conn::HTTP_CODE http_conn::process_read()
         // 每次读取完一行之后把text更新为读缓冲区里面位置,从该位置继续往后读
         m_start_line = m_checked_idx;
         std::cout << "get 1 http line: " << text << std::endl;
+        LOG_INFO("%s", text);
+        Log::get_instance()->flush();
 
         switch (m_check_state) {
             case CHECK_STATE_REQUESTLINE: {  //分析请求行
@@ -263,6 +268,10 @@ http_conn::HTTP_CODE http_conn::parse_request_line(char* text)
     if (strcasecmp(method, "GET") == 0) {
         m_method = GET;
     }
+    else if (strcasecmp(method, "POST") == 0) {
+        m_method = POST;
+        cgi      = 1;
+    }
     else {
         return BAD_REQUEST;
     }
@@ -276,6 +285,11 @@ http_conn::HTTP_CODE http_conn::parse_request_line(char* text)
     // strncasecmp()用来比较参数s1和s2字符串前n个字符，比较时会自动忽略大小写的差异。
     if (strncasecmp(m_url, "http://", 7) == 0) {
         m_url += 7;
+        m_url = strchr(m_url, '/');
+    }
+    // https
+    if (strncasecmp(m_url, "https://", 8) == 0) {
+        m_url += 8;
         m_url = strchr(m_url, '/');
     }
     // 一般不会带有http,直接是/资源
@@ -311,7 +325,14 @@ http_conn::HTTP_CODE http_conn::parse_headers(char* text)
         // 所指向的字符串转换为一个长整数（类型为 long int 型）。
         m_content_length = atol(text);
     }
+    else if (strncasecmp(text, "Host:", 5) == 0) {
+        text += 5;
+        text += strspn(text, " \t");
+        m_host = text;
+    }
     else {
+        LOG_INFO("oop! unknown header %s\n", text);
+        Log::get_instance()->flush();
         printf("oop! unknow header %s\n", text);
     }
     return NO_REQUEST;
@@ -322,6 +343,7 @@ http_conn::HTTP_CODE http_conn::parse_content(char* text)
 {  // 如果缓冲区的大小大于数据的长度+已有的长度，说明数据没有越界
     if (m_read_idx >= (m_content_length + m_checked_idx)) {
         text[m_content_length] = '\0';
+        m_string               = text;  // post 请求
         return GET_REQUEST;
     }
     return NO_REQUEST;
