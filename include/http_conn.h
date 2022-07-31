@@ -2,6 +2,7 @@
 #define HTTP_CONN_H
 
 #include "lock.h"
+#include "sql_connection_pool.h"
 #include <arpa/inet.h>
 #include <assert.h>
 #include <errno.h>
@@ -22,14 +23,6 @@
 #include <unistd.h>
 
 class http_conn {
-public:
-    static int m_epollfd;     // 所有连接所对应的epoll对象
-    static int m_user_count;  // 统计连接的数量
-    // 常量
-    static const int READ_BUFFER_SIZE  = 2048;  // 读缓冲区的大小
-    static const int WRITE_BUFFER_SIZE = 1024;  // 写缓冲区的大小
-    static const int FILENAME_LEN      = 200;   // 文件名字的最大长度
-
     // HTTP请求方法，这里只支持get
     enum METHOD { GET = 0, POST, HEAD, PUT, DELETE, TRACE, OPTIONS, CONNECT };
 
@@ -73,8 +66,12 @@ public:
     enum LINE_STATUS { LINE_OK = 200, LINE_BAD, LINE_OPEN };
 
 public:
+    http_conn();
+    ~http_conn();
+
+public:
     void init(int sockfd, const sockaddr_in& addr);  //初始化新的连接
-    void close_conn();                               // 关闭
+    void close_conn(bool real_close = true);         // 关闭
     void process();                                  // 处理新的连接
     bool read();                                     // 非阻塞读
     bool write();                                    // 非阻塞写
@@ -83,8 +80,19 @@ public:
         return &m_address;
     }
 
-    http_conn();
-    ~http_conn();
+    //同步线程初始化数据库读取表
+    void initmysql_result(connection_pool* connPool);
+    // CGI使用线程池初始化数据库表
+    // void initresultFile(connection_pool* connPool);
+
+public:
+    static int m_epollfd;     // 所有连接所对应的epoll对象
+    static int m_user_count;  // 统计连接的数量
+    MYSQL*     mysql;
+    // 常量
+    static const int READ_BUFFER_SIZE  = 2048;  // 读缓冲区的大小
+    static const int WRITE_BUFFER_SIZE = 1024;  // 写缓冲区的大小
+    static const int FILENAME_LEN      = 200;   // 文件名字的最大长度
 
 private:
     void      init();
@@ -101,7 +109,6 @@ private:
         return m_read_buf + m_start_line;
     }
     LINE_STATUS parse_line();
-
     // 这一组函数被process_write调用以填充HTTP应答。
     void unmap();
     bool add_response(const char* format, ...);

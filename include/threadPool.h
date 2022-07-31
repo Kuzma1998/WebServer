@@ -2,6 +2,7 @@
 #define THREAD_POOL_H
 
 #include "lock.h"
+#include "sql_connection_pool.h"
 #include <iostream>
 #include <list>
 #include <pthread.h>
@@ -9,7 +10,10 @@
 // 线程池类，定义为模板类为了代码的复用 模板参数T是任务类
 template <typename T> class threadPool {
 public:
-    threadPool(int thread_number = 8, int max_requests = 10000);
+    threadPool(
+        connection_pool* connPool,
+        int              thread_number = 8,
+        int              max_requests  = 10000);
     ~threadPool();
     bool append(T* request);  //添加任务
 
@@ -18,19 +22,23 @@ private:
     void         run();
 
 private:
-    int           m_thread_number;  //  线程池里面线程的数量
-    pthread_t*    m_threads;        // 线程池数组
-    int           m_max_requests;   // 线程池里面最多的请求数
-    std::list<T*> m_workerqueue;    // 任务队列，生产者进程
-    locker        m_queuelocker;    // 互斥锁
-    sem           m_queuestat;  // 信号量判断是否有任务需要处理
-    bool          m_stop;       //是否结束线程
+    int              m_thread_number;  //  线程池里面线程的数量
+    pthread_t*       m_threads;        // 线程池数组
+    int              m_max_requests;   // 线程池里面最多的请求数
+    std::list<T*>    m_workerqueue;    // 任务队列，生产者进程
+    locker           m_queuelocker;    // 互斥锁
+    sem              m_queuestat;  // 信号量判断是否有任务需要处理
+    bool             m_stop;       //是否结束线程
+    connection_pool* m_connPool;   //数据库
 };
 
 template <typename T>
-threadPool<T>::threadPool(int thread_number, int max_requests)
+threadPool<T>::threadPool(
+    connection_pool* connPool,
+    int              thread_number,
+    int              max_requests)
     : m_thread_number(thread_number), m_max_requests(max_requests),
-      m_stop(false), m_threads(nullptr)
+      m_stop(false), m_threads(nullptr),m_connPool(connPool)
 {
     if ((thread_number <= 0) || (max_requests <= 0)) {
         throw std::exception();
@@ -88,7 +96,7 @@ template <typename T> void* threadPool<T>::worker(void* args)
 template <typename T> void threadPool<T>::run()
 {
     while (!m_stop) {
-        m_queuestat.wait();           // 资源减一，如果小于0线程阻塞在任务队列上面
+        m_queuestat.wait();  // 资源减一，如果小于0线程阻塞在任务队列上面
         m_queuelocker.lock();         // 有的话先上锁
         if (m_workerqueue.empty()) {  // 任务队列空
             m_queuelocker.unlock();   // 解锁。下次循环
@@ -101,6 +109,7 @@ template <typename T> void threadPool<T>::run()
         if (!request) {
             continue;
         }
+        connectionRAII mysqlcon(&request->mysql,m_connPool);
         request->process();  // 处理任务
     }
 }

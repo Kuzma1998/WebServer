@@ -19,7 +19,7 @@ target_include_directories(webserver
         ${PROJECT_SOURCE_DIR}/include
 )#设置这个可执行文件hello_headers需要包含的库的路径
 
-target_link_libraries(webserver pthread)
+target_link_libraries(webserver pthread mysqlclient)
 
 #PROJECT_SOURCE_DIR指工程顶层目录
 #PROJECT_Binary_DIR指编译目录

@@ -17,7 +17,9 @@
 #include <unistd.h>
 #define MAX_FD 65536             // 最大用户连接数
 #define MAX_EVENTS_NUMBER 10000  // 监听的最大事件数量
-#define TIMESLOT 5               // 最小超时单位
+#define TIMESLOT 5
+
+// 最小超时单位
 
 // 定时器相关参数
 static int             pipefd[2];
@@ -69,8 +71,7 @@ void cb_func(client_data* user_data)
     epoll_ctl(epollfd, EPOLL_CTL_DEL, user_data->sockfd, 0);
     assert(user_data);
     close(user_data->sockfd);
-    std::cout << user_data->sockfd << std::endl;
-    std::cout << "连接关闭了..." << std::endl;
+    // std::cout << "连接关闭了..." << std::endl;
     LOG_INFO("close fd %d", user_data->sockfd);
     http_conn::m_user_count--;
 }
@@ -91,10 +92,13 @@ int main()
     int port = 10000;
     addsig(SIGPIPE, SIG_IGN);
 
+    // 创建数据库连接池
+    connection_pool* connPool = connection_pool::GetInstance();
+    connPool->init("localhost", "ljx", "ljxdw1998", "yourdb", 3306, 8);
     // 创建线程池
     threadPool<http_conn>* pool = nullptr;
     try {
-        pool = new threadPool<http_conn>();
+        pool = new threadPool<http_conn>(connPool);
     }
     catch (...) {  //省略号的作用是表示捕获所有类型的异常。
         return 1;
@@ -102,6 +106,7 @@ int main()
 
     // 所有用户连接数组
     http_conn* users = new http_conn[MAX_FD];
+    users->initmysql_result(connPool);
 
     // 获取监听的端口 使用tcp协议
     int listenfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -110,7 +115,7 @@ int main()
     // 服务端的ip和端口
     int                ret = -1;
     struct sockaddr_in address;
-    address.sin_addr.s_addr = INADDR_ANY;
+    address.sin_addr.s_addr = htonl(INADDR_ANY);
     address.sin_family      = AF_INET;
     address.sin_port        = htons(port);  // 转换为网络大端口
 
